@@ -11,6 +11,9 @@ incriment=0
 # store number of lines in variable currently not used for anything
 #lines=$(iw dev wlo1 scan | grep SSID: | xargs -n1 | wc -l)
 
+# Find the name of a wifi device to use
+#device=ip link show | grep 3:
+
 # get the list of network ssids and store in array
 mapfile -t networks < <(iw dev wlo1 scan | grep SSID: | sed s/SSID:// | sed /^[[:space:]]*$/d | xargs -n1 echo)
 
@@ -30,10 +33,10 @@ do
 done
 
 # Ask the user to sellect a network by choosing a corresponding number
-echo "Please Select SSID:"
+echo -n "Please Select SSID:"
 read selection
 # Ask the user to enter the password for the selected network
-echo "Please enter password:"
+echo -n "Please enter password:"
 read password
 
 nmcli dev wifi connect ${networks[$selection]} password $password
